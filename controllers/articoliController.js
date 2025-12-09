@@ -102,16 +102,21 @@ const destroy = (req, res) => {
 
     // The Number can prevent an sql injections but it's not enough
     const id = Number(req.params.id)
+    /*
+        const sql = `DELETE FROM posts WHERE id = ${id}`
+        console.log(sql, id);
+    
+    
+        connection.query(sql, [id], (err, results) => {
+            if (err) return res.status(500).json({ error: true, message: err.messgae })
+            console.log(results);
+            res.sendStatus(204)
+    
+        })
+            */
 
-    const sql = `DELETE FROM posts WHERE id = ${id}`
-    console.log(sql, id);
-
-
-    connection.query(sql, [id], (err, results) => {
-        if (err) return res.status(500).json({ error: true, message: err.messgae })
-        console.log(results);
-        res.sendStatus(204)
-
+    connection.query(`DELETE FROM POSTS WHERE id = ?`, [id], (err) => {
+        if (err) return res.status(500).json({ error: 'Failed to delete the post' })
     })
 
     res.send(`You want to delete the pizza with id: ${id}`)
