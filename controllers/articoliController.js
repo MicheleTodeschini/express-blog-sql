@@ -33,12 +33,18 @@ const show = (req, res) => {
     console.log(id);
 
     const sql = 'SELECT * FROM posts WHERE id = ?'
-    const sqlIngredients = ''
+
     console.log(sql, id);
 
-    connection.query(sql, [id], (err, response))
+    connection.query(sql, [id], (err, results) => {
+        if (err)
+            return res.status(500).json({ error: 'Database query failed' });
+        if (results.length === 0) return res.status(404).json({ error: 'Post not found' })
 
-    const foundArticolo = articoliRicette.find(articolo => articolo.id === id)
+        return res.json(results[0]);
+    });
+
+    //const foundArticolo = articoliRicette.find(articolo => articolo.id === id)
 
 
     {/*    let foundArticolo = {}
@@ -51,8 +57,8 @@ const show = (req, res) => {
 
     }*/}
 
-    res.json(foundArticolo)
-    console.log(foundArticolo);
+    // res.json(foundArticolo)
+    //console.log(foundArticolo);
 
 
 }
