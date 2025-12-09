@@ -3,19 +3,18 @@ const articoliRicette = require('../data/ArticoliRicette')
 const connection = require('../database/connection')
 const posts = require('../routers/posts')
 
-const sql = 'SELECT * FROM posts'
 
-connection.query(sql, (err, results) => {
-
-
-
-    res.json(results)
-
-})
 
 const index = (req, res) => {
-    throw new Error("errore")
+    // throw new Error("errore")
 
+    const sql = 'SELECT * FROM posts'
+
+    connection.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        res.json(results)
+
+    })
     res.json(articoliRicette)
 
     filteredArticle = articoliRicette
